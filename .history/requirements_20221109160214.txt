@@ -42,4 +42,3 @@ typing_extensions==4.4.0
 urllib3==1.26.12
 wsproto==1.2.0
 black==22.10.0
-py==1.11.0
