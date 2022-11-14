@@ -17,8 +17,8 @@ python3.10 manage.py dumpdata inventory.category --indent 4 > new.json
 
 pytest -m "not selenium" -rP
 
-
-
+python3.10 manage.py load-fixtures
+https://factoryboy.readthedocs.io/en/stable/orms.html
 
 
 
