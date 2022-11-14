@@ -50,8 +50,8 @@ def test_inventory_db_category_insert_data(
             "widstar-running-sneakers",
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin porta, eros vel sollicitudin lacinia, quam metus gravida elit, a elementum nisl neque sit amet orci. Nulla id lorem ac nunc cursus consequat vitae ut orci. In a velit eu justo eleifend tincidunt vel eu turpis. Praesent eu orci egestas, lobortis magna egestas, tincidunt augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Aenean vitae lectus eget tortor laoreet efficitur vel et leo. Maecenas volutpat eget ante id tempor. Etiam posuere ex urna, at aliquet risus tempor eu. Aenean a odio odio. Nunc consectetur lorem ante, interdum ultrices elit consectetur sit amet. Vestibulum rutrum interdum nulla. Cras vel mi a enim eleifend blandit. Curabitur ex dui, rutrum et odio sit amet, auctor euismod massa.",
             1,
-            "2021-09-04 22:14:18",
-            "2021-09-04 22:14:18",
+            "2022-11-14 22:14:18",
+            "2022-11-14 22:14:18",
         ),
         (
             8616,
@@ -60,8 +60,8 @@ def test_inventory_db_category_insert_data(
             "impact-puse-dance-shoe",
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin porta, eros vel sollicitudin lacinia, quam metus gravida elit, a elementum nisl neque sit amet orci. Nulla id lorem ac nunc cursus consequat vitae ut orci. In a velit eu justo eleifend tincidunt vel eu turpis. Praesent eu orci egestas, lobortis magna egestas, tincidunt augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Aenean vitae lectus eget tortor laoreet efficitur vel et leo. Maecenas volutpat eget ante id tempor. Etiam posuere ex urna, at aliquet risus tempor eu. Aenean a odio odio. Nunc consectetur lorem ante, interdum ultrices elit consectetur sit amet. Vestibulum rutrum interdum nulla. Cras vel mi a enim eleifend blandit. Curabitur ex dui, rutrum et odio sit amet, auctor euismod massa.",
             1,
-            "2021-09-04 22:14:18",
-            "2021-09-04 22:14:18",
+            "2022-11-14 22:14:18",
+            "2022-11-14 22:14:18",
         ),
     ],
 )
@@ -125,8 +125,8 @@ def test_inventory_db_product_insert_data(
             92.00,
             46.00,
             987,
-            "2021-09-04 22:14:18",
-            "2021-09-04 22:14:18",
+            "2022-11-14 22:14:18",
+            "2022-11-14 22:14:18",
         ),
         (
             8616,
@@ -140,8 +140,8 @@ def test_inventory_db_product_insert_data(
             84.00,
             42.00,
             929,
-            "2021-09-04 22:14:18",
-            "2021-09-04 22:14:18",
+            "2022-11-14 22:14:18",
+            "2022-11-14 22:14:18",
         ),
     ],
 )
@@ -227,66 +227,66 @@ def test_inventory_db_brand_uniqueness_integrity(db, brand_factory):
         brand_factory.create(name="not_unique")
 
 
-# @pytest.mark.dbfixture
-# @pytest.mark.parametrize(
-#     "id, product_inventory, image, alt_text, is_feature, created_at, updated_at",
-#     [
-#         (
-#             1,
-#             1,
-#             "images/default.png",
-#             "a default image solid color",
-#             1,
-#             "2021-09-04 22:14:18",
-#             "2021-09-04 22:14:18",
-#         ),
-#         (
-#             8616,
-#             8616,
-#             "images/default.png",
-#             "a default image solid color",
-#             1,
-#             "2021-09-04 22:14:18",
-#             "2021-09-04 22:14:18",
-#         ),
-#     ],
-# )
-# def test_inventory_db_media_dataset(
-#     db,
-#     db_fixture_setup,
-#     id,
-#     product_inventory,
-#     image,
-#     alt_text,
-#     is_feature,
-#     created_at,
-#     updated_at,
-# ):
-#     result = models.Media.objects.get(id=id)
-#     result_created_at = result.created_at.strftime("%Y-%m-%d %H:%M:%S")
-#     result_updated_at = result.updated_at.strftime("%Y-%m-%d %H:%M:%S")
-#     assert result.product_inventory.id == product_inventory
-#     assert result.image == image
-#     assert result.alt_text == alt_text
-#     assert result.is_feature == is_feature
-#     assert result_created_at == created_at
-#     assert result_updated_at == updated_at
+@pytest.mark.dbfixture
+@pytest.mark.parametrize(
+    "id, product_inventory, image, alt_text, is_feature, created_at, updated_at",
+    [
+        (
+            1,
+            1,
+            "images/default.png",
+            "a default image solid color",
+            1,
+            "2022-11-14 22:14:18",
+            "2022-11-14 22:14:18",
+        ),
+        (
+            8616,
+            8616,
+            "images/default.png",
+            "a default image solid color",
+            1,
+            "2022-11-14 22:14:18",
+            "2022-11-14 22:14:18",
+        ),
+    ],
+)
+def test_inventory_db_media_dataset(
+    db,
+    db_fixture_setup,
+    id,
+    product_inventory,
+    image,
+    alt_text,
+    is_feature,
+    created_at,
+    updated_at,
+):
+    result = models.Media.objects.get(id=id)
+    result_created_at = result.created_at.strftime("%Y-%m-%d %H:%M:%S")
+    result_updated_at = result.updated_at.strftime("%Y-%m-%d %H:%M:%S")
+    assert result.product_inventory.id == product_inventory
+    assert result.image == image
+    assert result.alt_text == alt_text
+    assert result.is_feature == is_feature
+    assert result_created_at == created_at
+    assert result_updated_at == updated_at
 
 
-# def test_inventory_db_media_insert_data(db, media_factory):
-#     new_media = media_factory.create(product_inventory__sku="123456789")
-#     assert new_media.product_inventory.sku == "123456789"
-#     assert new_media.image == "images/default.png"
-#     assert new_media.alt_text == "a default image solid color"
-#     assert new_media.is_feature == 1
+def test_inventory_db_media_insert_data(db, media_factory):
+    new_media = media_factory.create(product_inventory__sku="123456789")
+    assert new_media.product_inventory.sku == "123456789"
+    assert new_media.image == "images/default.png"
+    assert new_media.alt_text == "a default image solid color"
+    assert new_media.is_feature == 1
 
 
 # @pytest.mark.dbfixture
 # @pytest.mark.parametrize(
 #     "id, product_inventory, last_checked, units, units_sold",
 #     [
-#         (1, 1, "2021-09-04 22:14:18", 135, 0),
-#         (8616, 8616, "2021-09-04 22:14:18", 100, 0),
+#         (1, 1, "2022-11-14 22:14:18", 135, 0),
+#         (8616, 8616, "2022-11-14 22:14:18", 100, 0),
 #     ],
 # )
 # def test_inventory_db_stock_dataset(

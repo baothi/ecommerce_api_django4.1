@@ -25,8 +25,8 @@ class ProductFactory(factory.django.DjangoModelFactory):
     name = fake.lexify(text="prod_name_??????")
     description = fake.text()
     is_active = True
-    created_at = "2021-09-04 22:14:18.279092"
-    updated_at = "2021-09-04 22:14:18.279092"
+    created_at = "2022-11-14 22:14:18.279092"
+    updated_at = "2022-11-14 22:14:18.279092"
 
     @factory.post_generation
     def category(self, create, extracted, **kwargs):
@@ -68,14 +68,14 @@ class ProductInventoryFactory(factory.django.DjangoModelFactory):
     weight = 987
 
 
-# class MediaFactory(factory.django.DjangoModelFactory):
-#     class Meta:
-#         model = models.Media
+class MediaFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.Media
 
-#     product_inventory = factory.SubFactory(ProductInventoryFactory)
-#     image = "images/default.png"
-#     alt_text = "a default image solid color"
-#     is_feature = True
+    product_inventory = factory.SubFactory(ProductInventoryFactory)
+    image = "images/default.png"
+    alt_text = "a default image solid color"
+    is_feature = True
 
 
 # class StockFactory(factory.django.DjangoModelFactory):
@@ -127,7 +127,7 @@ register(ProductFactory)
 register(ProductTypeFactory)
 register(BrandFactory)
 register(ProductInventoryFactory)
-# register(MediaFactory)
+register(MediaFactory)
 # register(StockFactory)
 # register(ProductAttributeFactory)
 # register(ProductAttributeValueFactory)
