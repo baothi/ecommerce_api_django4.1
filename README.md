@@ -17,6 +17,7 @@ https://chromedriver.chromium.org/downloads
 python3.10 manage.py dumpdata inventory.category --indent 4 > new.json
 
 pytest -m "not selenium" -rP
+pytest -m "not selenium and not dbfixture" -rP
 
 python3.10 manage.py load-fixtures
 https://factoryboy.readthedocs.io/en/stable/orms.html
