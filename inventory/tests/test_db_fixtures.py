@@ -16,6 +16,7 @@ def test_inventory_category_dbfixture(
     db, db_fixture_setup, id, name, slug, is_active
 ):
     result = models.Category.objects.get(id=id)
+    print("test_inventory_category_dbfixture : ", result)
     assert result.name == name
     assert result.slug == slug
     assert result.is_active == is_active
@@ -34,6 +35,7 @@ def test_inventory_db_category_insert_data(
 ):
     result = category_factory.create(slug=slug, is_active=is_active)
     print("test_inventory_db_category_insert_data : ",result.name)
+    print("test_inventory_db_category_insert_data : ",result)
     # assert result.name == name
     assert result.slug == slug
     assert result.is_active == is_active
@@ -81,6 +83,7 @@ def test_inventory_db_product_dbfixture(
     result = models.Product.objects.get(id=id)
     result_created_at = result.created_at.strftime("%Y-%m-%d %H:%M:%S")
     result_updated_at = result.updated_at.strftime("%Y-%m-%d %H:%M:%S")
+    print("test_inventory_db_product_dbfixture : ", result)
     assert result.web_id == web_id
     assert result.name == name
     assert result.slug == slug
@@ -165,6 +168,7 @@ def test_inventory_db_product_inventory_dataset(
     result = models.ProductInventory.objects.get(id=id)
     result_created_at = result.created_at.strftime("%Y-%m-%d %H:%M:%S")
     result_updated_at = result.updated_at.strftime("%Y-%m-%d %H:%M:%S")
+    print("******************test_inventory_db_product_inventory_dataset******************** : ",result)
     assert result.sku == sku
     assert result.upc == upc
     assert result.product_type.id == product_type
@@ -189,6 +193,7 @@ def test_inventory_db_product_inventory_insert_data(
         product__web_id="123456789",
         brand__name="new_name",
     )
+    print("***************test_inventory_db_product_inventory_insert_data**************: ",new_product)
     assert new_product.sku == "123456789"
     assert new_product.upc == "123456789"
     assert new_product.product_type.name == "new_name"
@@ -204,6 +209,7 @@ def test_inventory_db_product_inventory_insert_data(
 def test_inventory_db_producttype_insert_data(db, product_type_factory):
 
     new_type = product_type_factory.create(name="demo_type")
+    print("*********************test_inventory_db_producttype_insert_data****************: ", new_type)
     assert new_type.name == "demo_type"
 
 
@@ -281,59 +287,61 @@ def test_inventory_db_media_insert_data(db, media_factory):
     assert new_media.is_feature == 1
 
 
-# @pytest.mark.dbfixture
-# @pytest.mark.parametrize(
-#     "id, product_inventory, last_checked, units, units_sold",
-#     [
-#         (1, 1, "2022-11-14 22:14:18", 135, 0),
-#         (8616, 8616, "2022-11-14 22:14:18", 100, 0),
-#     ],
-# )
-# def test_inventory_db_stock_dataset(
-#     db,
-#     db_fixture_setup,
-#     id,
-#     product_inventory,
-#     last_checked,
-#     units,
-#     units_sold,
-# ):
-#     result = models.Stock.objects.get(id=id)
-#     result_last_checked = result.last_checked.strftime("%Y-%m-%d %H:%M:%S")
-#     assert result.product_inventory.id == product_inventory
-#     assert result_last_checked == last_checked
-#     assert result.units == units
-#     assert result.units_sold == units_sold
+@pytest.mark.dbfixture
+@pytest.mark.parametrize(
+    "id, product_inventory, last_checked, units, units_sold",
+    [
+        (1, 1, "2022-11-14 22:14:18", 135, 0),
+        (8616, 8616, "2022-11-14 22:14:18", 100, 0),
+    ],
+)
+def test_inventory_db_stock_dataset(
+    db,
+    db_fixture_setup,
+    id,
+    product_inventory,
+    last_checked,
+    units,
+    units_sold,
+):
+    result = models.Stock.objects.get(id=id)
+    result_last_checked = result.last_checked.strftime("%Y-%m-%d %H:%M:%S")
+    assert result.product_inventory.id == product_inventory
+    assert result_last_checked == last_checked
+    assert result.units == units
+    assert result.units_sold == units_sold
 
 
-# def test_inventory_db_stock_insert_data(db, stock_factory):
-#     new_stock = stock_factory.create(product_inventory__sku="123456789")
-#     assert new_stock.product_inventory.sku == "123456789"
-#     assert new_stock.units == 2
-#     assert new_stock.units_sold == 100
+def test_inventory_db_stock_insert_data(db, stock_factory):
+    new_stock = stock_factory.create(product_inventory__sku="123456789")
+    assert new_stock.product_inventory.sku == "123456789"
+    assert new_stock.units == 2
+    assert new_stock.units_sold == 100
 
 
-# @pytest.mark.dbfixture
-# @pytest.mark.parametrize(
-#     "id, name, description",
-#     [
-#         (1, "men-shoe-size", "men shoe size"),
-#     ],
-# )
-# def test_inventory_db_product_attribute_dataset(
-#     db, db_fixture_setup, id, name, description
-# ):
-#     result = models.ProductAttribute.objects.get(id=id)
-#     assert result.name == name
-#     assert result.description == description
+@pytest.mark.dbfixture
+@pytest.mark.parametrize(
+    "id, name, description",
+    [
+        (1, "men-shoe-size", "men shoe size"),
+    ],
+)
+def test_inventory_db_product_attribute_dataset(
+    db, db_fixture_setup, id, name, description
+):
+    result = models.ProductAttribute.objects.get(id=id)
+    print("******************test_inventory_db_product_attribute_dataset***********: ",result)
+    assert result.name == name
+    assert result.description == description
 
 
-# def test_inventory_db_product_attrubite_insert_data(
-#     db, product_attribute_factory
-# ):
-#     new_attribute = product_attribute_factory.create()
-#     assert new_attribute.name == "attribute_name_0"
-#     assert new_attribute.description == "description_0"
+def test_inventory_db_product_attrubite_insert_data(
+    db, product_attribute_factory
+):
+    new_attribute = product_attribute_factory.create()
+    assert new_attribute.name == "attribute_name_0"
+    assert new_attribute.description == "ProductAttri111111111111buteFactory_0"
+    print("***************************test_inventory_db_product_attrubite_insert_data**********: ", new_attribute.description)
 
 
 # def test_inventory_db_product_attrubite_uniqueness_integrity(
