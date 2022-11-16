@@ -62,6 +62,7 @@ manage.py dumpdata auth.user --indent 2 > user.json
 ```
 https://django-ecommerce-project-v2.readthedocs.io/en/latest/
 ```
+## ElesticSearch
 
 
 
