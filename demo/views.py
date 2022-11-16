@@ -1,6 +1,8 @@
 from django.core import serializers
 from django.shortcuts import render
 from inventory import models
+from django.contrib.postgres.aggregates import ArrayAgg
+from django.db.models import Count
 
 
 def home(request):
@@ -57,28 +59,26 @@ def product_detail(request, slug):
     if request.GET:
         for value in request.GET.values():
             filter_arguments.append(value)
-
-        from django.db.models import Count
-        from django.contrib.postgres.aggregates import ArrayAgg
-
+            
         x = models.ProductInventory.objects.filter(product__slug=slug).filter(
             attribute_values__attribute_value__in=filter_arguments).annotate(
             num_tags=Count('attribute_values')).filter(num_tags=len(filter_arguments)).values(
             "id", "sku", "product__name", "store_price", "product_inventory__units").annotate(
             field_a=ArrayAgg("attribute_values__attribute_value")).get()
+        print("*********************** : ",x)
     else:
-
-        from django.contrib.postgres.aggregates import ArrayAgg
-
         x = models.ProductInventory.objects.filter(product__slug=slug).filter(is_default=True).values(
         "id", "sku", "product__name", "store_price", "product_inventory__units").annotate(
             field_a=ArrayAgg("attribute_values__attribute_value")).get()
+        print("*******else**************** : ",x)
 
         
     y = models.ProductInventory.objects.filter(product__slug=slug).distinct().values(
     "attribute_values__product_attribute__name", "attribute_values__attribute_value")
 
-    z = models.ProductTypeAttribute.objects.filter(product_type__product_type__product__slug=slug).distinct().values("product_attribute__name")
+    z = models.ProductTypeAttribute.objects.filter(
+        product_type__product_type__product__slug=slug).distinct().values(
+            "product_attribute__name")
 
     return render(request, "product_detail.html", {"x": x, "filter": y, "z" : z})
 
