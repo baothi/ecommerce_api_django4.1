@@ -27,7 +27,7 @@ def product_by_category(request, category):
     # x = models.Product.objects.filter(category__name="fashion")
     # print(models.Product.objects.filter(category__name="fashion").explain(verbose=True, analyze=True))
 
-    data = models.Product.objects.filter(category__name=category).values(
+    data = models.Product.objects.filter(category__name=category).filter(product__is_default=True).values(
         "id", "name", "slug", "created_at", "category__name", "product__store_price"
     )
     print(data)
@@ -61,14 +61,18 @@ def product_detail(request, slug):
         from django.db.models import Count
         from django.contrib.postgres.aggregates import ArrayAgg
 
-        x = models.ProductInventory.objects.filter(product__slug=slug).filter(attribute_values__attribute_value__in=filter_arguments).annotate(num_tags=Count('attribute_values')).filter(num_tags=len(filter_arguments)).values(
-        "id", "sku", "product__name", "store_price", "product_inventory__units").annotate(field_a=ArrayAgg("attribute_values__attribute_value")).get()
+        x = models.ProductInventory.objects.filter(product__slug=slug).filter(
+            attribute_values__attribute_value__in=filter_arguments).annotate(
+            num_tags=Count('attribute_values')).filter(num_tags=len(filter_arguments)).values(
+            "id", "sku", "product__name", "store_price", "product_inventory__units").annotate(
+            field_a=ArrayAgg("attribute_values__attribute_value")).get()
     else:
 
         from django.contrib.postgres.aggregates import ArrayAgg
 
-        x = models.ProductInventory.objects.filter(product__slug=slug).values(
-        "id", "sku", "product__name", "store_price", "product_inventory__units").annotate(field_a=ArrayAgg("attribute_values__attribute_value")).get()
+        x = models.ProductInventory.objects.filter(product__slug=slug).filter(is_default=True).values(
+        "id", "sku", "product__name", "store_price", "product_inventory__units").annotate(
+            field_a=ArrayAgg("attribute_values__attribute_value")).get()
 
         
     y = models.ProductInventory.objects.filter(product__slug=slug).distinct().values(
