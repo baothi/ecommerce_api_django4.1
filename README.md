@@ -63,8 +63,21 @@ manage.py dumpdata auth.user --indent 2 > user.json
 https://django-ecommerce-project-v2.readthedocs.io/en/latest/
 ```
 ## ElesticSearch
+curl -X GET localhost:9200/_cluster/health   --> test elestic_search run or not
 
+python3.10 manage.py search_index --rebuild    --> use index
 
-
+curl -X GET "localhost:9200/_search?pretty" -H 'Content-Type: application/json' -d'
+{
+    "query": {
+        "bool":{
+            "must":[
+                { "match": { "sku": "7633969397" }}
+            ]
+        }
+    }
+}
+'
+curl -X GET "localhost:9200/productinventory/_doc/1?pretty"
 
 
